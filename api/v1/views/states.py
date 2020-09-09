@@ -21,7 +21,7 @@ def get_states():
 def retrieve_state_id(state_id):
     """retrieve state with id"""
     state = storage.get(State, state_id)
-    if state is None:
+    if not state:
         abort(404)
     return jsonify(state.to_dict())
 
@@ -31,11 +31,12 @@ def retrieve_state_id(state_id):
 def delete_specific_state(state_id):
     """delete method"""
     state = storage.get(State, state_id)
-    if state is None:
+    if not state:
         abort(404)
-    storage.delete(state)
-    storage.save()
-    return make_response(jsonify({}), 200)
+    else:
+        storage.delete(state)
+        storage.save()
+        return make_response(jsonify({}), 200)
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
@@ -48,7 +49,8 @@ def post_method():
         abort(400, description="Missing name")
 
     new_state = State(**(request.get_json()))
-    new_state.save()
+    storage.new(new_state)
+    storage.save()
     return make_response(jsonify(new_state.to_dict()), 201)
 
 
