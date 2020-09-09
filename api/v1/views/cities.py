@@ -34,7 +34,8 @@ def create_city(state_id):
     if "name" not in http.keys():
         abort(400, "Missing name")
     # create city
-    new_city = City(**http, state_id=state_id)
+    http['state_id'] = state_id
+    new_city = City(**http)
     storage.new(new_city)
     storage.save()
     return make_response(jsonify(new_city.to_dict()), 201)
