@@ -82,4 +82,4 @@ def update_city(city_id):
         if value not in ["id", "state_id", "created_at", "updated_at"]:
             setattr(city, attr, value)
     storage.save()
-    return make_response(jsonify(city), 200)
+    return make_response(jsonify(city.to_dict()), 200)
