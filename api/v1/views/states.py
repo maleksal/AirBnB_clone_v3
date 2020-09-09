@@ -46,7 +46,8 @@ def post_method():
         abort(400, desciption="Not a JSON")
     if "name" not in request.get_json():
         abort(400, description="Missing name")
-    new_state = State(**request.get_json())
+
+    new_state = State(**(request.get_json()))
     new_state.save()
     return make_response(jsonify(new_state.to_dict()), 201)
 
