@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" Handle Api for places"""
+""" Handling Api for places"""
 from models.place import Place
 from models import storage
 from api.v1.views import app_views
@@ -11,7 +11,7 @@ from models.user import User
 @app_views.route('/cities/<city_id>/places', methods=['GET'],
                  strict_slashes=False)
 def retrieve_place_city(city_id):
-    '''retrieve the corresponding place of a city'''
+    '''retrieving the corresponding place of a city'''
     if storage.get(City, city_id) is None:
         abort(404)
     citie = storage.get(City, city_id)
@@ -21,7 +21,7 @@ def retrieve_place_city(city_id):
 @app_views.route('/places/<place_id>', methods=['GET'],
                  strict_slashes=False)
 def retrieve_specific_place(place_id):
-    '''Retrieve a specific place with it's id'''
+    '''Retrieving a specific place with it's id'''
     place = storage.get(Place, place_id)
     if not place:
         abort(404)
@@ -43,7 +43,7 @@ def delete_place(place_id):
 @app_views.route('/cities/<city_id>/places', methods=['POST'],
                  strict_slashes=False)
 def post_methods(city_id):
-    '''create a new Place'''
+    '''creating a new Place'''
     if not storage.get(City, city_id):
         abort(404)
     http_request = request.get_json()
@@ -64,7 +64,7 @@ def post_methods(city_id):
 
 @app_views.route("/places/<place_id>", methods=["PUT"], strict_slashes=False,)
 def update_place_object(place_id):
-    '''PUT method to update a place using id'''
+    '''Putting method to update a place using id'''
     place = storage.get(Place, place_id)
     if not place:
         abort(404)
