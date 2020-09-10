@@ -88,6 +88,7 @@ class TestFileStorage(unittest.TestCase):
         """Test that save properly saves objects to file.json"""
 
 
+@unittest.skipIf(models.storage_t == 'db', "not testing file storage")
 class testdbstorageimprovements(unittest.TestCase):
     """Test the db storage improvement"""
 
