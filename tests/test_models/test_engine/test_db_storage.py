@@ -70,11 +70,14 @@ test_db_storage.py'])
 
     def test_storage_get_method(self):
         """ Test storage get method  """
-        city, state = City(), State()
+        state, city = State(), City()
+        state.name = "state test"
+        city.name = "city test"
+        city.state_id = state.id
         storage.new(city)
         storage.new(state)
         storage.save()
-        self.assertTrue(city.id == storage.get(City, city.id).id)
+        self.assertIs(city, storage.get(City, city.id))
         self.assertIs(state, storage.get(State, state.id))
         self.assertIs(None, storage.get(State, "none"))
         self.assertIs(None, storage.get(City, "none"))
@@ -85,6 +88,7 @@ test_db_storage.py'])
         count_state = storage.count(State)
         count_city = storage.count(City)
         new_state = State()
+        new_state.name = "testing YOO"
         storage.new(new_state)
         storage.save()
         self.assertEqual(storage.count(State), count_state + 1)
