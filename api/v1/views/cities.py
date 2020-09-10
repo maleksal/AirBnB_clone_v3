@@ -10,7 +10,10 @@ from models.city import City
 from models.state import State
 
 
-@app_views.route("/states/<state_id>/cities", methods=["GET"])
+@app_views.route(
+            "/states/<state_id>/cities",
+            methods=["GET"],
+            strict_slashes=False,)
 def retrieve_cities(state_id):
     ''' Retrieves the list of all City objects of a State
     '''
@@ -20,7 +23,10 @@ def retrieve_cities(state_id):
     return jsonify([city.to_dict() for city in state.cities])
 
 
-@app_views.route("/states/<state_id>/cities", methods=["POST"])
+@app_views.route(
+            "/states/<state_id>/cities",
+            methods=["POST"],
+            strict_slashes=False,)
 def create_city(state_id):
     ''' Create city object linked to a state
     '''
@@ -41,8 +47,11 @@ def create_city(state_id):
     return make_response(jsonify(new_city.to_dict()), 201)
 
 
-@app_views.route("/cities/<city_id>", methods=["GET", "PUT", "DELETE"])
-def RetrieveCreateDelete_city(city_id):
+@app_views.route(
+            "/cities/<city_id>",
+            methods=["GET", "PUT", "DELETE"],
+            strict_slashes=False,)
+def RetrieveUpdateDelete_city(city_id):
     ''' Retrieves a City object '''
     city = storage.get(City, city_id)
     if not city:
@@ -55,7 +64,7 @@ def RetrieveCreateDelete_city(city_id):
         storage.delete(city)
         storage.save()
         return make_response(jsonify({}), 200)
-    # Handle POST request
+    # Handle PUT request
     if request.method == "PUT":
         ignore_keys = ("id", "state_id", "created_at", "updated_at")
         http_request = request.get_json()
