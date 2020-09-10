@@ -54,7 +54,6 @@ def post_methods(city_id):
         abort(400)
     if 'name' not in request.get_json():
         abort(400, description="Missing name")
-    
     new_place['city_id'] = city.id
     new_place = Place(**request.get_json())
     storage.save()
