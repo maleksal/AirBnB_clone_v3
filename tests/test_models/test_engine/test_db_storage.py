@@ -7,7 +7,6 @@ from datetime import datetime
 import inspect
 import models
 from models import storage
-from models.storage import get, count
 from models.engine import db_storage
 from models.amenity import Amenity
 from models.base_model import BaseModel
@@ -72,19 +71,23 @@ test_db_storage.py'])
     def test_storage_get_method(self):
         """ Test storage get method  """
         city, state = City(), State()
+        storage.new(city)
+        storage.new(state)
         storage.save()
-        self.assertIS(city, get(City, city.id))
-        self.assertIS(state, get(State, state.id))
-        self.assertIS(None, get(State, "none"))
-        self.assertIS(None, get(City, "none"))
+        self.assertTrue(city.id == storage.get(City, city.id).id)
+        self.assertIs(state, storage.get(State, state.id))
+        self.assertIs(None, storage.get(State, "none"))
+        self.assertIs(None, storage.get(City, "none"))
 
     def test_count_method(self):
         """ Test storage count method """
-        count_all = count()
-        count_state = count(State)
-        count_city = count(City)
+        count_all = storage.count()
+        count_state = storage.count(State)
+        count_city = storage.count(City)
         new_state = State()
-        self.assertEqual(count(State), count_state + 1)
+        storage.new(new_state)
+        storage.save()
+        self.assertEqual(storage.count(State), count_state + 1)
 
 
 class TestFileStorage(unittest.TestCase):
