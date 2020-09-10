@@ -64,9 +64,6 @@ def update_user_object(user_id):
     http_request = request.get_json()
     if not http_request:
         abort(400, "Not a JSON")
-    for key in ["email", "password"]:
-        if key not in http_request.keys():
-            abort(400, "Missing {}".format(key))
     for attr, value in http_request.items():
         if attr not in ["id email", "created_at", "updated_at"]:
             setattr(user, attr, value)
