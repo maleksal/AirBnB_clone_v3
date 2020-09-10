@@ -46,16 +46,18 @@ def post_methods(city_id):
     '''create a new Place'''
     if not storage.get(City, city_id):
         abort(404)
-    if not request.get_json():
+    http_request = request.get_json()
+    if not http_request:
         abort(400, decription="Not a JSON")
-    if 'user_id' not in request.get_json():
+    if 'user_id' not in http_request.keys():
         abort(400, description="Missing user_id")
-    if not storage.get(User, request.get_json()['user_id']):
+    if not storage.get(User, http_request['user_id']):
         abort(404)
-    if 'name' not in request.get_json():
+    if 'name' not in http_request.keys():
         abort(400, description="Missing name")
-    new_place = Place(**request.get_json())
-    new_place['city_id'] = city.id
+    http_request["city_id"] = city_id
+    new_place = Place(**http_request)
+    storage.new(new_place)
     storage.save()
     return make_response(jsonify(new_place.to_dict()), 201)
 
