@@ -40,7 +40,7 @@ def delete_amenity(amenity_id):
 
 @app_views.route('/amenities', methods=['POST'], strict_slashes=False)
 def post_method_amaneity():
-    """creating  a new amenity object"""
+    """creating a new amenity object"""
     if not request.get_json():
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
     if 'name' not in request.get_json():
