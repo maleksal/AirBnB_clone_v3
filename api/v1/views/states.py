@@ -33,22 +33,20 @@ def delete_specific_state(state_id):
     state = storage.get(State, state_id)
     if not state:
         abort(404)
-    else:
-        storage.delete(state)
-        storage.save()
-        return make_response(jsonify({}), 200)
+    storage.delete(state)
+    storage.save()
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
 def post_method():
     """post methods"""
-    dic = request.get_json()
     if not request.get_json():
         abort(400, description='Not a JSON')
-    if 'name' not in dic.keys():
+    if 'name' not in request.get_json():
         abort(400, description='Missing name')
 
-    new_state = State(**dic)
+    new_state = State(**request.get_json())
     storage.new(new_state)
     storage.save()
     return make_response(jsonify(new_state.to_dict()), 201)
@@ -58,12 +56,11 @@ def post_method():
 def update_state(state_id):
     """update a state"""
 
-    state = storage.get(State, state_id)
-    if not state:
+    if not storage.get(State, state_id):
         abort(404)
-    data = request.get_json()
-    if not data:
+    if not request.get_json():
         abort(400, description='Not a JSON')
+    data = request.get_json()
     for key, value in data.items():
         if key not in ["id", "created_at", "updated_at"]:
             setattr(state, key, value)
