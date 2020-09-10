@@ -29,7 +29,7 @@ def get_amenity(amenity_id):
 @app_views.route('/amenities/<string:amenity_id>', methods=['DELETE'],
                  strict_slashes=False)
 def delete_amenity(amenity_id):
-    """deleteing  a specific amenity object"""
+    """deleteing a specific amenity object"""
     obj = storage.get(Amenity, amenity_id)
     if obj is None:
         abort(404)
