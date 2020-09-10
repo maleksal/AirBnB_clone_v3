@@ -45,7 +45,7 @@ def delete_review_object(review_id):
     return make_response(jsonify({}), 200)
 
 
-@app_views.route('/places/<place_id>/reviews', methods=['DELETE'],
+@app_views.route('/places/<place_id>/reviews', methods=['POST'],
                  strict_slashes=False)
 def create_review_object(place_id):
     ''' create a review object
