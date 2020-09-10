@@ -44,7 +44,7 @@ def post_method():
     """post methods"""
     dic = request.get_json()
     if not request.get_json():
-        abort(400, desciption='Not a JSON')
+        abort(400, description='Not a JSON')
     if 'name' not in dic.keys():
         abort(400, description='Missing name')
 
