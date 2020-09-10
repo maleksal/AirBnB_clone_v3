@@ -15,9 +15,9 @@ class TestBaseModelDocs(unittest.TestCase):
     """Tests to check the documentation and style of BaseModel class"""
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         """Set up for docstring tests"""
-        self.base_funcs = inspect.getmembers(BaseModel, inspect.isfunction)
+        cls.base_funcs = inspect.getmembers(BaseModel, inspect.isfunction)
 
     def test_pep8_conformance(self):
         """Test that models/base_model.py conforms to PEP8."""
@@ -82,18 +82,15 @@ class TestBaseModel(unittest.TestCase):
         """Test that two BaseModel instances have different datetime objects
         and that upon creation have identical updated_at and created_at
         value."""
-        tic = datetime.now()
+        tic = datetime.utcnow()
         inst1 = BaseModel()
-        toc = datetime.now()
-        print(tic <= inst1.created_at <= toc)
-        self.assertLessEqual(inst1.created_at, tic)
-        self.assertLessEqual(inst1.created_at, toc)
+        toc = datetime.uttic = datetime.utcnow()
+        self.assertTrue(tic <= inst1.created_at <= toc)
         time.sleep(1e-4)
-        tic = datetime.now()
+        tic = datetime.utcnow()
         inst2 = BaseModel()
-        toc = datetime.now()
-        self.assertLessEqual(inst2.created_at, tic)
-        self.assertLessEqual(inst2.created_at, toc)
+        toc = datetime.uttic = datetime.utcnow()
+        self.assertTrue(tic <= inst2.created_at <= toc)
         self.assertEqual(inst1.created_at, inst1.updated_at)
         self.assertEqual(inst2.created_at, inst2.updated_at)
         self.assertNotEqual(inst1.created_at, inst2.created_at)
