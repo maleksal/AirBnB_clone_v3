@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-a routes module
+a  routes module
 """
 from flask import jsonify
 from api.v1.views import app_views
@@ -19,13 +19,13 @@ classes = {"amenities": Amenity, "cities": City,
 
 @app_views.route("/status", methods=['GET'])
 def status():
-    ''' returning status code of the api '''
+    ''' returning  status code of the api '''
     return jsonify(status="OK")
 
 
 @app_views.route("/stats", methods=['GET'])
 def stats():
-    '''returning stats of objects'''
+    '''returning  stats of objects'''
     dict = {}
     for key, cls in classes.items():
         dict[key] = storage.count(cls)

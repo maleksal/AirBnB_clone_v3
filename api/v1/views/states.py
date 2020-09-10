@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" Handling Api for states"""
+""" Handling  Api for states"""
 from models.state import State
 from models import storage
 from api.v1.views import app_views
@@ -8,7 +8,7 @@ from flask import jsonify, make_response, abort, request
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
 def get_states():
-    '''retrieving all states'''
+    '''retrieving  all states'''
     dict = {}
     listx = []
     for obj in storage.all("State").values():
@@ -19,7 +19,7 @@ def get_states():
 @app_views.route('/states/<state_id>', methods=['GET'],
                  strict_slashes=False)
 def retrieve_state_id(state_id):
-    """retrieving state with id"""
+    """retrieving  state with id"""
     state = storage.get(State, state_id)
     if not state:
         abort(404)
@@ -29,7 +29,7 @@ def retrieve_state_id(state_id):
 @app_views.route('/states/<state_id>', methods=['DELETE'],
                  strict_slashes=False)
 def delete_specific_state(state_id):
-    """deleting method"""
+    """deleting  method"""
     state = storage.get(State, state_id)
     if not state:
         abort(404)
@@ -40,7 +40,7 @@ def delete_specific_state(state_id):
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
 def post_method():
-    """posting methods"""
+    """posting  methods"""
     if not request.get_json():
         abort(400, description='Not a JSON')
     if 'name' not in request.get_json().keys():
@@ -54,7 +54,7 @@ def post_method():
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
 def update_state(state_id):
-    """updating a state"""
+    """updating  a state"""
 
     state = storage.get(State, state_id)
     if not state:

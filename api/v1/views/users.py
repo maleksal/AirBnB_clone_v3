@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-User View Module
+User  View Module
 
 """
 from api.v1.views import app_views
@@ -11,14 +11,14 @@ from models.user import User
 
 @app_views.route("/users", strict_slashes=False)
 def get_users():
-    """ Retrieving all user object
+    """ Retrieving  all user object
     """
     return jsonify([user.to_dict() for user in storage.all(User).values()])
 
 
 @app_views.route("/users/<user_id>", strict_slashes=False)
 def get_user_by_id(user_id):
-    """ Retrieving user object with id
+    """ Retrieving  user object with id
     """
     user = storage.get(User, user_id)
     if not user:
@@ -28,7 +28,7 @@ def get_user_by_id(user_id):
 
 @app_views.route("/users/<user_id>", strict_slashes=False, methods=["DELETE"])
 def delete_user_object(user_id):
-    """ deleting user object refrenced by id
+    """ deleting  user object refrenced by id
     """
     user = storage.get(User, user_id)
     if not user:
@@ -40,7 +40,7 @@ def delete_user_object(user_id):
 
 @app_views.route("/users", strict_slashes=False, methods=["POST"])
 def create_user_object():
-    """ Creating user object
+    """ Creating  user object
     """
     http_request = request.get_json()
     if not http_request:
@@ -56,7 +56,7 @@ def create_user_object():
 
 @app_views.route("/users/<user_id>", strict_slashes=False, methods=["PUT"])
 def update_user_object(user_id):
-    """ updating user opject refrenced by id
+    """ updating  user opject refrenced by id
     """
     user = storage.get(User, user_id)
     if not user:
