@@ -35,7 +35,7 @@ def delete_place(place_id):
     place = storage.get(Place, place_id)
     if not place:
         abort(404)
-    place.delete()
+    storage.delete(place)
     storage.save()
     return make_response(jsonify({}), 200)
 
@@ -54,6 +54,7 @@ def post_methods(city_id):
         abort(400)
     if 'name' not in request.get_json():
         abort(400, description="Missing name")
+    
     new_place['city_id'] = city.id
     new_place = Place(**request.get_json())
     storage.save()
@@ -63,7 +64,7 @@ def post_methods(city_id):
 @app_views.route("/places/<place_id>", methods=["PUT"], strict_slashes=False,)
 def update_place_object(place_id):
     '''PUT method to update a place using id'''
-    if storage.get(Place, place_id):
+    if not storage.get(Place, place_id):
         abort(404)
     if not request.get_json():
         abort(400, description='Not a JSON')
