@@ -51,11 +51,11 @@ def post_methods(city_id):
     if 'user_id' not in request.get_json():
         abort(400, description="Missing user_id")
     if not storage.get(User, request.get_json()['user_id']):
-        abort(400)
+        abort(404)
     if 'name' not in request.get_json():
         abort(400, description="Missing name")
-    new_place['city_id'] = city.id
     new_place = Place(**request.get_json())
+    new_place['city_id'] = city.id
     storage.save()
     return make_response(jsonify(new_place.to_dict()), 201)
 
