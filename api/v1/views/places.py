@@ -65,11 +65,11 @@ def post_methods(city_id):
 @app_views.route("/places/<place_id>", methods=["PUT"], strict_slashes=False,)
 def update_place_object(place_id):
     '''PUT method to update a place using id'''
-    if not storage.get(Place, place_id):
+    place = storage.get(Place, place_id)
+    if not place:
         abort(404)
     if not request.get_json():
         abort(400, description='Not a JSON')
-    place = request.get_json()
     for key, value in request.get_json().items():
         if key not in ['id', 'user_id', 'city_id',
                        'created_at ', 'updated_at']:
