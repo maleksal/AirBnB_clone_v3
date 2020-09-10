@@ -32,10 +32,11 @@ def delete_amenity_place(place_id, amenity_id):
     if place and amenity:
         if getenv("HBNB_TYPE_STORAGE") == "db":
             if amenity in place.amenities:
-                amenity_pointer = amenity
+                storage.delete(amenity)
+                storage.save()
+                return jsonify({})
+            abort(404)
         if amenity in place.amenity_ids:
-            amenity_pointer = amenity
-        if amenity_pointer:
             storage.delete(amenity)
             storage.save()
             return jsonify({})
