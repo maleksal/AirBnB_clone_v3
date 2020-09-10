@@ -38,7 +38,7 @@ def delete_place(place_id):
     return make_response(jsonify({}), 200)
 
 
-@app_views.route('/cities/<string:city_id>/places', methods=['POST'],
+@app_views.route('/cities/<city_id>/places', methods=['POST'],
                  strict_slashes=False)
 def post_methods(city_id):
     '''create a new Place'''
@@ -53,6 +53,7 @@ def post_methods(city_id):
     if 'name' not in request.get_json():
         abort(400, descritpion="Missing name")
     new_place = Place(**request.get_json())
+    new_place.save()
     return make_response(jsonify(new_place.to_dict()), 201)
 
 
