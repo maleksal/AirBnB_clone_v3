@@ -23,17 +23,17 @@ def retrieve_place_city(city_id):
 def retrieve_specific_place(place_id):
     '''Retrieve a specific place with it's id'''
     place = storage.get(Place, place_id)
-    if place is None:
+    if not place:
         abort(404)
     return jsonify(place.to_dict())
 
 
-@app_views.route('/places/<string:place_id>', methods=['DELETE'],
+@app_views.route('/places/<place_id>', methods=['DELETE'],
                  strict_slashes=False)
 def delete_place(place_id):
     """deletes a place object place_id"""
     place = storage.get(Place, place_id)
-    if place is None:
+    if not place:
         abort(404)
     place.delete()
     storage.save()
@@ -53,11 +53,10 @@ def post_methods(city_id):
     if not storage.get(User, request.get_json()['user_id']):
         abort(400)
     if 'name' not in request.get_json():
-        abort(400, descritpion="Missing name")
-    content['city_id'] = city.id
+        abort(400, description="Missing name")
+    new_place['city_id'] = city.id
     new_place = Place(**request.get_json())
-    storage.new(place)
-    new_place.save()
+    storage.save()
     return make_response(jsonify(new_place.to_dict()), 201)
 
 
@@ -71,7 +70,7 @@ def update_place_object(place_id):
     place = request.get_json()
     for key, value in request.get_json().items():
         if key not in ['id', 'user_id', 'city_id',
-                       'created_at ', 'updated_at']:
+                       'created_at ', 'updated_at', 'state_id']:
             setattr(place, key, value)
     storage.save()
     return make_response(jsonify(place.to_dict()), 200)
