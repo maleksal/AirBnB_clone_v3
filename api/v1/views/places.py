@@ -70,7 +70,7 @@ def update_place_object(place_id):
     place = request.get_json()
     for key, value in request.get_json().items():
         if key not in ['id', 'user_id', 'city_id',
-                       'created_at ', 'updated_at', 'state_id']:
+                       'created_at ', 'updated_at']:
             setattr(place, key, value)
     storage.save()
     return make_response(jsonify(place.to_dict()), 200)
