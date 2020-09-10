@@ -23,19 +23,19 @@ def retrieve_place_city(city_id):
 def retrieve_specific_place(place_id):
     '''Retrieve a specific place with it's id'''
     place = storage.get(Place, place_id)
-    if place is None:
+    if not place:
         abort(404)
     return jsonify(place.to_dict())
 
 
-@app_views.route('/places/<string:place_id>', methods=['DELETE'],
+@app_views.route('/places/<place_id>', methods=['DELETE'],
                  strict_slashes=False)
 def delete_place(place_id):
     """deletes a place object place_id"""
     place = storage.get(Place, place_id)
-    if place is None:
+    if not place:
         abort(404)
-    place.delete()
+    storage.delete(place)
     storage.save()
     return make_response(jsonify({}), 200)
 
@@ -51,18 +51,19 @@ def post_methods(city_id):
     if 'user_id' not in request.get_json():
         abort(400, description="Missing user_id")
     if not storage.get(User, request.get_json()['user_id']):
-        abort(400)
+        abort(404)
     if 'name' not in request.get_json():
-        abort(400, descritpion="Missing name")
+        abort(400, description="Missing name")
     new_place = Place(**request.get_json())
-    new_place.save()
+    new_place['city_id'] = city.id
+    storage.save()
     return make_response(jsonify(new_place.to_dict()), 201)
 
 
 @app_views.route("/places/<place_id>", methods=["PUT"], strict_slashes=False,)
 def update_place_object(place_id):
     '''PUT method to update a place using id'''
-    if storage.get(Place, place_id):
+    if not storage.get(Place, place_id):
         abort(404)
     if not request.get_json():
         abort(400, description='Not a JSON')
