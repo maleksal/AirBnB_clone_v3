@@ -72,7 +72,7 @@ class FileStorage:
     def get(self, cls, id):
         """A method to retrieve one object:"""
 
-        if cls is not None and id is not None:
+        if cls is not None and id is not None and cls in classes:
             a = self.all(cls)
         for key, value in a.items():
             if value.id == id:
