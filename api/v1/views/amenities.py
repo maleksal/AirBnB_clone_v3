@@ -9,7 +9,7 @@ from models.amenity import Amenity
 
 @app_views.route('/amenities', methods=['GET'], strict_slashes=False)
 def get_amenities():
-    """retrieving  the list of amenities objects"""
+    """retrieving the list of amenities objects"""
     listx = []
     for amenity in storage.all("Amenity").values():
         listx.append(amenity.to_dict())
