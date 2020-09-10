@@ -19,7 +19,7 @@ def get_amenities():
 @app_views.route('/amenities/<string:amenity_id>', methods=['GET'],
                  strict_slashes=False)
 def get_amenity(amenity_id):
-    """retrieving  a specific amanity object"""
+    """retrieving a specific amanity object"""
     amenity_object = storage.get(Amenity, amenity_id)
     if amenity_object is None:
         abort(404)
