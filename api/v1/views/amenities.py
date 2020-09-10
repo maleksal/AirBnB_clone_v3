@@ -53,7 +53,7 @@ def post_method_amaneity():
 @app_views.route('/amenities/<string:amenity_id>', methods=['PUT'],
                  strict_slashes=False)
 def update_amenity_obj(amenity_id):
-    """updating  specific amenity object"""
+    """updating specific amenity object"""
     if storage.get(Amenity, amenity_id) is None:
         abort(404)
     if not request.get_json():
