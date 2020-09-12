@@ -51,7 +51,7 @@ def post_methods(city_id):
         abort(404)
     http_request = request.get_json()
     if not http_request:
-        abort(400, decription="Not a JSON")
+        abort(400, description="Not a JSON")
     if 'user_id' not in http_request.keys():
         abort(400, description="Missing user_id")
     if not storage.get(User, http_request['user_id']):
