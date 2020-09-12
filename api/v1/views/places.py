@@ -59,7 +59,7 @@ def post_methods(city_id):
     if 'name' not in http_request.keys():
         abort(400, description="Missing name")
     new_place = Place(**http_request)
-    setattr(new_place, city_id, city_id)
+    setattr(new_place, 'city_id', city_id)
     storage.new(new_place)
     storage.save()
     return make_response(jsonify(new_place.to_dict()), 201)
